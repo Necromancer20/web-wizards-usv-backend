@@ -17,3 +17,6 @@ async def root() -> Utilizator:
         email="test@gmail.com",
         rol=UserRole.STUDENT,
     )
+@app.get("/materii")
+async def root() -> Utilizator:
+    return []
