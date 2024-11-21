@@ -1,13 +1,12 @@
-from sqlalchemy import VARCHAR, Integer, Boolean, DateTime, Enum, ForeignKey, Text, UUID
-from sqlalchemy.dialects.mssql import UNIQUEIDENTIFIER
-from sqlalchemy.orm import Mapped, mapped_column, relationship, DeclarativeBase
-
 import enum
+
+from sqlalchemy import VARCHAR, Integer, Boolean, DateTime, Enum, ForeignKey, Text
+from sqlalchemy.dialects.mssql import UNIQUEIDENTIFIER
+from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
 
 
 class Base(DeclarativeBase):
     pass
-
 
 # Enums
 class UserRole(enum.Enum):
