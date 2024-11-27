@@ -8,6 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
 class Base(DeclarativeBase):
     pass
 
+
 # Enums
 class UserRole(enum.Enum):
     ADMIN = "admin"

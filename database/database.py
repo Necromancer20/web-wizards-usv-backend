@@ -1,11 +1,15 @@
+import os
+
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
-# URL-ul către baza de date
-DATABASE_URL = "mssql+pyodbc://web-wiz-dev-acc:tfNoWcopU3KN3ehdPzWl@sql-web-wizards-dev-gwc.database.windows.net/sqldb-web-wizards-dev-gwc?driver=ODBC+Driver+17+for+SQL+Server"
+load_dotenv(".env")
 
-# Creează engine-ul pentru baza de date
-engine = create_engine(DATABASE_URL)
+SERVER_HOST = os.environ.get("SERVER_HOST")
+DATABASE_NAME = os.environ.get("DATABASE_NAME")
+DB_USERNAME = os.environ.get("DB_USERNAME")
+DATABASE_PASSWORD = os.environ.get("DATABASE_PASSWORD")
 
-# Creează sesiuni SQLAlchemy
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+DATABASE_URL = f"mssql+pyodbc://{DB_USERNAME}:{DATABASE_PASSWORD}@{SERVER_HOST}/{DATABASE_NAME}?driver=ODBC+Driver+17+for+SQL+Server"
+
+DATABASE_ENGINE = create_engine(DATABASE_URL)
