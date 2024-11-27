@@ -14,5 +14,5 @@ Acest proiect reprezintă backend-ul aplicatiei pentru programarea examenelor.
     * **env**: Numele folderului care va conține mediul virtual. (poate fi introdus ori ce nume aici)
 6. Activare mediul virtual folosind **.\env\Scripts\activate.bat**
 7. Instalarea dependențelor folosind comanda **pip install -r requirements.txt** 
-8. Introdu comanda **uvicorn main:app -reload** pentru a rula programul.
+8. Introdu comanda **fastapi dev .\main.py** pentru a rula programul.
 9. Dacă nu apare nici o eroare și la final scrie **Application startup complete.** intră pe [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
