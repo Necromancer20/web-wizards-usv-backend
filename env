@@ -1,0 +1,4 @@
+SERVER_HOST="sql-web-wizards-dev-gwc.database.windows.net"
+DATABASE_NAME="sqldb-web-wizards-dev-gwc"
+DB_USERNAME="web-wiz-dev-acc"
+DATABASE_PASSWORD="458Uv5aOSZ8uBOT36vwv"

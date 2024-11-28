@@ -21,3 +21,11 @@ class UtilizatorUpdate(BaseModel):
     email: str
     parola: str
     rol: str
+
+
+class UtilizatorCreate(BaseModel):
+    first_name: str
+    last_name: str
+    email: str
+    parola: str
+    rol: str

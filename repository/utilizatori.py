@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from database.database import DATABASE_ENGINE
 from database.models import Utilizator
-from return_models.utilizatori import UtilizatorUpdate
+from return_models.utilizatori import UtilizatorUpdate, UtilizatorCreate
 
 
 def get_user_by_email(email: str) -> Optional[Utilizator]:
@@ -69,3 +69,19 @@ def update_user_in_db(user_id: uuid.UUID, new_user: UtilizatorUpdate) -> bool:
         session.commit()
 
         return True
+
+
+def add_user_to_db(new_user: UtilizatorCreate) -> Utilizator:
+    with Session(DATABASE_ENGINE) as session:
+        utilizator = Utilizator(
+            id=uuid.uuid4(),
+            first_name=new_user.first_name,
+            last_name=new_user.last_name,
+            email=new_user.email,
+            password=new_user.password,
+            rol=new_user.rol
+        )
+        session.add(utilizator)
+        session.commit()
+        session.refresh(utilizator)
+        return utilizator
