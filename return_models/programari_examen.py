@@ -9,16 +9,15 @@ from typing import Optional
 
 # Enum pentru tipul examenului
 class ExamType(str, Enum):
-    ORAL = "oral"
-    WRITTEN = "written"
-    ONLINE = "online"
+    EXAMEN = "examen"
+    COLOCVIU = "colocviu"
 
 
 # Enum pentru statusul examenului
 class ExamStatus(str, Enum):
-    SCHEDULED = "scheduled"
-    COMPLETED = "completed"
-    CANCELLED = "cancelled"
+    ACCEPTAT = "aceptat"
+    REFUZAT = "refuzat"
+    IN_ASTEPTARE = "in_asteptare"
 
 
 # Model pentru obținerea detaliilor unei programări de examen

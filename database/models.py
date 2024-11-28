@@ -17,14 +17,14 @@ class UserRole(enum.Enum):
 
 
 class ExamType(enum.Enum):
-    ORAL = "examen"
-    WRITTEN = "colocviu"
+    EXAMEN = "examen"
+    COLOCVIU = "colocviu"
 
 
 class ExamStatus(enum.Enum):
     ACCEPTAT = "aceptat"
     REFUZAT = "refuzat"
-    IN_ASTEPATARE = "in_asteptare"
+    IN_ASTEPTARE = "in_asteptare"
 
 
 # Tables
@@ -33,7 +33,7 @@ class Facultati(Base):
     __tablename__ = "facultati"
 
     id: Mapped[str] = mapped_column(UNIQUEIDENTIFIER, primary_key=True)
-    nume: Mapped[str] = mapped_column(VARCHAR(30), nullable=False)
+    nume: Mapped[str] = mapped_column(VARCHAR(100), nullable=False)
 
 
 class Specializari(Base):
@@ -41,7 +41,7 @@ class Specializari(Base):
 
     id: Mapped[str] = mapped_column(UNIQUEIDENTIFIER, primary_key=True)
     id_facultate: Mapped[str] = mapped_column(UNIQUEIDENTIFIER, ForeignKey("facultati.id"), nullable=False)
-    nume: Mapped[str] = mapped_column(VARCHAR(30), nullable=False)
+    nume: Mapped[str] = mapped_column(VARCHAR(100), nullable=False)
 
 
 class Grupe(Base):
@@ -63,7 +63,7 @@ class Materii(Base):
     id_profesor: Mapped[str] = mapped_column(UNIQUEIDENTIFIER, ForeignKey("utilizator.id"),
                                              nullable=False)  # Assuming professor ID is a UUID
     semestrul: Mapped[int] = mapped_column(Integer, nullable=False)
-    nume: Mapped[str] = mapped_column(VARCHAR(30), nullable=False)
+    nume: Mapped[str] = mapped_column(VARCHAR(100), nullable=False)
     nume_abreviat: Mapped[str] = mapped_column(VARCHAR(10), nullable=False)
     numar_credite: Mapped[int] = mapped_column(Integer, nullable=False)
     durata_examen_minute: Mapped[int] = mapped_column(Integer, nullable=False)
@@ -78,7 +78,7 @@ class ProgramariExamen(Base):
     id_student_creator: Mapped[str] = mapped_column(UNIQUEIDENTIFIER, ForeignKey("utilizator.id"), nullable=False)
     id_grupa: Mapped[str] = mapped_column(UNIQUEIDENTIFIER, ForeignKey("grupe.id"), nullable=False)
     data_examen: Mapped[DateTime] = mapped_column(DateTime, nullable=False)
-    locatie: Mapped[str] = mapped_column(VARCHAR(30), nullable=False)
+    locatie: Mapped[str] = mapped_column(VARCHAR(100), nullable=False)
     tip_examen: Mapped[ExamType] = mapped_column(Enum(ExamType), nullable=False)
     observatii: Mapped[str] = mapped_column(Text, nullable=True)
     status: Mapped[ExamStatus] = mapped_column(Enum(ExamStatus), nullable=False)
@@ -88,10 +88,10 @@ class Utilizator(Base):
     __tablename__ = "utilizator"
 
     id: Mapped[str] = mapped_column(UNIQUEIDENTIFIER, primary_key=True)
-    first_name: Mapped[str] = mapped_column(VARCHAR(30), nullable=False)
-    last_name: Mapped[str] = mapped_column(VARCHAR(30), nullable=False)
-    email: Mapped[str] = mapped_column(VARCHAR(30), nullable=False, unique=True)
-    password: Mapped[str] = mapped_column(VARCHAR(30), nullable=False)
+    first_name: Mapped[str] = mapped_column(VARCHAR(100), nullable=False)
+    last_name: Mapped[str] = mapped_column(VARCHAR(100), nullable=False)
+    email: Mapped[str] = mapped_column(VARCHAR(100), nullable=False, unique=True)
+    password: Mapped[str] = mapped_column(VARCHAR(100), nullable=False)
     rol: Mapped[UserRole] = mapped_column(Enum(UserRole), nullable=False)
 
 
