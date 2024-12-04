@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from pydantic import BaseModel, Field, validator
-
+from repository.programari_examen import check_examen_grupa_distanta_minima
 from datetime import datetime
 from enum import Enum
 from typing import Optional
@@ -47,9 +47,17 @@ class ProgramareExamenCreate(BaseModel):
     status: ExamStatus
 
     @validator("data_examen")
-    def valideaza_data_examen(cls, value):
+    def valideaza_data_examen(cls, value, values):
+        # Verificăm dacă data examenului este în viitor
         if value <= datetime.now():
             raise ValueError("Data examenului trebuie să fie în viitor.")
+
+        # Verificăm dacă există examene prea aproape de examenul curent
+        id_grupa = values.get('id_grupa')
+        if id_grupa and not check_examen_grupa_distanta_minima(id_grupa, value):
+            raise ValueError(
+                "Nu poți programa un examen mai devreme de 2 zile față de alte examene ale aceleași grupe.")
+
         return value
 
     @validator("locatie")

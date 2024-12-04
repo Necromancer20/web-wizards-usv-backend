@@ -1,3 +1,4 @@
+import datetime
 import uuid
 
 from sqlalchemy import select
@@ -58,4 +59,16 @@ def delete_programare_examen_by_id(programare_id: uuid.UUID) -> bool:
 
         session.delete(programare)
         session.commit()
+        return True
+
+# Funcție pentru verificarea dacă există un examen programat la aceeași grupă la o distanță mai mică de 2 zile
+def check_examen_grupa_distanta_minima(id_grupa: uuid.UUID, data_examen: datetime) -> bool:
+    with Session(DATABASE_ENGINE) as session:
+        stmt = select(ProgramariExamen).where(ProgramariExamen.id_grupa == id_grupa)
+        programari = session.scalars(stmt).all()
+
+        for programare in programari:
+            if abs((programare.data_examen - data_examen).days) < 2:
+                return False
+
         return True
