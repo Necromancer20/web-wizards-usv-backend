@@ -50,6 +50,23 @@ async def get_programare_examen(programare_id: uuid.UUID) -> ProgramareExamenGet
     return _map_programare_examen(programare)
 
 
+@router_programari_examen.get("/filter")
+async def filter_programari_examen(id_grupa: uuid.UUID | None = None, id_profesor: uuid.UUID | None = None) -> list[ProgramareExamenGet]:
+    """
+    Endpoint pentru filtrarea programărilor de examen în funcție de grupă și/sau profesor.
+    """
+    programari = get_all_programari_examen_from_db()
+
+    if id_grupa:
+        programari = [programare for programare in programari if programare.id_grupa == id_grupa]
+
+    if id_profesor:
+        programari = [programare for programare in programari if programare.id_profesor == id_profesor]
+
+    return [_map_programare_examen(programare) for programare in programari]
+
+
+
 @router_programari_examen.post("/", status_code=status.HTTP_201_CREATED)
 async def create_programare_examen(programare: ProgramareExamenCreate):
     """
