@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, validator
 
 from datetime import datetime
 from enum import Enum
@@ -28,7 +28,7 @@ class ProgramareExamenGet(BaseModel):
     id_student_creator: UUID
     id_grupa: UUID
     data_examen: datetime
-    locatie: str
+    locatie: str = Field(..., min_length=2, max_length=100)
     tip_examen: ExamType
     observatii: Optional[str] = None
     status: ExamStatus
@@ -41,10 +41,22 @@ class ProgramareExamenCreate(BaseModel):
     id_student_creator: UUID
     id_grupa: UUID
     data_examen: datetime
-    locatie: str
+    locatie: str = Field(..., min_length=2, max_length=100)
     tip_examen: ExamType
     observatii: Optional[str] = None
     status: ExamStatus
+
+    @validator("data_examen")
+    def valideaza_data_examen(cls, value):
+        if value <= datetime.now():
+            raise ValueError("Data examenului trebuie să fie în viitor.")
+        return value
+
+    @validator("locatie")
+    def valideaza_locatie(cls, value):
+        if not value.replace(" ", "").isalnum():
+            raise ValueError("Locația poate conține doar litere, cifre și spații.")
+        return value
 
 
 # Model pentru actualizarea unei programări de examen
@@ -58,3 +70,15 @@ class ProgramareExamenUpdate(BaseModel):
     tip_examen: ExamType
     observatii: Optional[str] = None
     status: ExamStatus
+
+    @validator("data_examen")
+    def valideaza_data_examen(cls, value):
+        if value <= datetime.now():
+            raise ValueError("Data examenului trebuie să fie în viitor.")
+        return value
+
+    @validator("locatie")
+    def valideaza_locatie(cls, value):
+        if not value.replace(" ", "").isalnum():
+            raise ValueError("Locația poate conține doar litere, cifre și spații.")
+        return value
