@@ -68,7 +68,8 @@ def check_examen_grupa_distanta_minima(id_grupa: uuid.UUID, data_examen: datetim
         programari = session.scalars(stmt).all()
 
         for programare in programari:
-            if abs((programare.data_examen - data_examen).days) < 2:
+            dt=programare.data_examen.replace(tzinfo=datetime.UTC)
+            if abs((dt - data_examen).days) < 2:
                 return False
 
         return True
