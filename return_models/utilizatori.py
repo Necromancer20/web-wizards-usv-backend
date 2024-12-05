@@ -3,12 +3,7 @@ from pydantic import BaseModel, EmailStr, Field, validator
 
 import enum
 
-
-# Enums from database
-class UserRole(enum.Enum):
-    ADMIN = "admin"
-    STUDENT = "student"
-    PROFESSOR = "professor"
+from database.models import UserRole
 
 
 class UtilizatorLogin(BaseModel):

@@ -23,7 +23,6 @@ def get_user_by_id(user_id: uuid.UUID) -> Optional[Utilizator]:
         stmt = select(Utilizator).where(Utilizator.id == user_id)
 
         utilizator = session.scalar(stmt)
-
         return utilizator
 
 

@@ -6,18 +6,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-
-# Enum pentru tipul examenului
-class ExamType(str, Enum):
-    EXAMEN = "examen"
-    COLOCVIU = "colocviu"
-
-
-# Enum pentru statusul examenului
-class ExamStatus(str, Enum):
-    ACCEPTAT = "aceptat"
-    REFUZAT = "refuzat"
-    IN_ASTEPTARE = "in_asteptare"
+from database.models import ExamType, ExamStatus
 
 
 # Model pentru obținerea detaliilor unei programări de examen

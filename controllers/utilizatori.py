@@ -14,7 +14,7 @@ router_utiliziatori = APIRouter(
 
 
 def _map_user(db_user: Utilizator) -> UtilizatorGet | UtilizatorLogin:
-    return UtilizatorLogin(
+    return UtilizatorGet(
         id=db_user.id,
         first_name=db_user.first_name,
         last_name=db_user.last_name,

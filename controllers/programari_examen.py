@@ -1,6 +1,8 @@
 import uuid
+from typing import Annotated
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Query
+from pydantic import BaseModel
 
 from database.models import ProgramariExamen
 from repository.programari_examen import get_programare_examen_by_id, get_all_programari_examen_from_db, create_programare_examen_in_db, update_programare_examen_in_db, delete_programare_examen_by_id
@@ -50,12 +52,19 @@ async def get_programare_examen(programare_id: uuid.UUID) -> ProgramareExamenGet
     return _map_programare_examen(programare)
 
 
-@router_programari_examen.get("/filter")
-async def filter_programari_examen(id_grupa: uuid.UUID | None = None, id_profesor: uuid.UUID | None = None) -> list[ProgramareExamenGet]:
+class FilterParams(BaseModel):
+    id_grupa: uuid.UUID | None = None
+    id_professor: uuid.UUID | None = None
+
+
+@router_programari_examen.get("/filter/")
+async def filter_programari_examen(filter_params: Annotated[FilterParams, Query()]) -> list[ProgramareExamenGet]:
     """
     Endpoint pentru filtrarea programărilor de examen în funcție de grupă și/sau profesor.
     """
     programari = get_all_programari_examen_from_db()
+    id_grupa = filter_params.id_grupa
+    id_profesor = filter_params.id_professor
 
     if id_grupa:
         programari = [programare for programare in programari if programare.id_grupa == id_grupa]
