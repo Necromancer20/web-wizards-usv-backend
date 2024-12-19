@@ -26,7 +26,7 @@ def get_all_grupe_from_db() -> list[Grupe]:
 # Funcție pentru crearea unei grupe
 def create_grupa_in_db(grupa_data) -> Grupe:
     with Session(DATABASE_ENGINE) as session:
-        new_grupa = Grupe(**grupa_data.dict())
+        new_grupa = Grupe(id=uuid.uuid4(), **grupa_data.dict())
         session.add(new_grupa)
         session.commit()
         session.refresh(new_grupa)

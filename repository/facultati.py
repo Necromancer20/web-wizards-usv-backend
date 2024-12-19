@@ -27,9 +27,8 @@ def get_all_facultati_from_db() -> list[Facultati]:
 def create_facultate_in_db(facultate_data) -> Facultati:
     with Session(DATABASE_ENGINE) as session:
         new_facultate = Facultati(
-            nume_facultate=facultate_data.nume_facultate,
-            descriere=facultate_data.descriere,
-            locatie=facultate_data.locatie
+            id=uuid.uuid4(),
+            nume=facultate_data.nume_facultate,
         )
         session.add(new_facultate)
         session.commit()

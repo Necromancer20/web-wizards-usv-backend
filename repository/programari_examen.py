@@ -27,7 +27,7 @@ def get_all_programari_examen_from_db() -> list[ProgramariExamen]:
 # Funcție pentru crearea unei programări de examen noi
 def create_programare_examen_in_db(programare_data) -> ProgramariExamen:
     with Session(DATABASE_ENGINE) as session:
-        new_programare_examen = ProgramariExamen(**programare_data.dict())
+        new_programare_examen = ProgramariExamen(id=uuid.uuid4(), **programare_data.dict())
         session.add(new_programare_examen)
         session.commit()
         session.refresh(new_programare_examen)
