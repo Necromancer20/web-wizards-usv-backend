@@ -27,6 +27,7 @@ def get_all_materii_from_db() -> list[Materii]:
 def create_materie_in_db(materie_data) -> Materii:
     with Session(DATABASE_ENGINE) as session:
         new_materie = Materii(
+            id=uuid.uuid4(),
             id_grupa=materie_data.id_grupa,
             id_profesor=materie_data.id_profesor,
             semestrul=materie_data.semestrul,
