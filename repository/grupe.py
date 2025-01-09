@@ -1,10 +1,11 @@
 import uuid
+from typing import Optional
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from database.database import DATABASE_ENGINE
-from database.models import Grupe
+from database.models import Grupe, GrupeUtilizator
 
 
 # Funcție pentru obținerea unei grupe după ID
@@ -13,6 +14,20 @@ def get_grupa_by_id(grupa_id: uuid.UUID) -> Grupe:
         stmt = select(Grupe).where(Grupe.id == grupa_id)
         grupa = session.scalar(stmt)
         return grupa
+
+
+def get_grupa_utilizator(user_id: uuid.UUID) -> Optional[tuple[uuid.UUID, bool]]:
+    with Session(DATABASE_ENGINE) as session:
+        stmt = (
+            select(GrupeUtilizator)
+            .where(GrupeUtilizator.id_utilizator == user_id)
+        )
+        data = session.scalar(stmt)
+
+        if not data:
+            return None
+
+        return data.id_grupa, data.este_sef_semigrupa
 
 
 # Funcție pentru obținerea tuturor grupelor

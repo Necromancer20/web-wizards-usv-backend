@@ -17,10 +17,12 @@ class ProgramareExamenGet(BaseModel):
     id_student_creator: UUID
     id_grupa: UUID
     data_examen: datetime
+    data_finalizare_examen: datetime
     locatie: str = Field(..., min_length=2, max_length=100)
     tip_examen: ExamType
     observatii: Optional[str] = None
     status: ExamStatus
+    durata_examen_minute: int
 
 
 # Model pentru crearea unei programări de examen

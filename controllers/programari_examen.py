@@ -1,3 +1,4 @@
+import datetime
 import uuid
 from typing import Annotated
 
@@ -5,7 +6,9 @@ from fastapi import APIRouter, HTTPException, status, Query
 from pydantic import BaseModel
 
 from database.models import ProgramariExamen
-from repository.programari_examen import get_programare_examen_by_id, get_all_programari_examen_from_db, create_programare_examen_in_db, update_programare_examen_in_db, delete_programare_examen_by_id
+from repository.materii import get_durata_examen_materie_by_id
+from repository.programari_examen import get_programare_examen_by_id, get_all_programari_examen_from_db, \
+    create_programare_examen_in_db, update_programare_examen_in_db, delete_programare_examen_by_id
 from return_models.programari_examen import ProgramareExamenGet, ProgramareExamenCreate, ProgramareExamenUpdate
 
 router_programari_examen = APIRouter(
@@ -14,7 +17,7 @@ router_programari_examen = APIRouter(
 )
 
 
-def _map_programare_examen(db_programare_examen: ProgramariExamen) -> ProgramareExamenGet:
+def _map_programare_examen(db_programare_examen: ProgramariExamen, durata_examen_minute: int) -> ProgramareExamenGet:
     return ProgramareExamenGet(
         id=db_programare_examen.id,
         id_materie=db_programare_examen.id_materie,
@@ -25,7 +28,9 @@ def _map_programare_examen(db_programare_examen: ProgramariExamen) -> Programare
         locatie=db_programare_examen.locatie,
         tip_examen=db_programare_examen.tip_examen,
         observatii=db_programare_examen.observatii,
-        status=db_programare_examen.status
+        status=db_programare_examen.status,
+        durata_examen_minute=durata_examen_minute,
+        data_finalizare_examen=db_programare_examen.data_examen + datetime.timedelta(minutes=durata_examen_minute)
     )
 
 
@@ -35,7 +40,8 @@ async def get_all_programari_examen() -> list[ProgramareExamenGet]:
     Endpoint pentru obținerea tuturor programărilor de examen
     """
     programari = get_all_programari_examen_from_db()
-    return [_map_programare_examen(programare) for programare in programari]
+    return [_map_programare_examen(programare, get_durata_examen_materie_by_id(programare.id_materie)) for programare in
+            programari]
 
 
 @router_programari_examen.get("/{programare_id}")
@@ -47,9 +53,9 @@ async def get_programare_examen(programare_id: uuid.UUID) -> ProgramareExamenGet
 
     if programare is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                             detail="Programare examen not found")
+                            detail="Programare examen not found")
 
-    return _map_programare_examen(programare)
+    return _map_programare_examen(programare, get_durata_examen_materie_by_id(programare.id_materie))
 
 
 class FilterParams(BaseModel):
@@ -72,8 +78,8 @@ async def filter_programari_examen(filter_params: Annotated[FilterParams, Query(
     if id_profesor:
         programari = [programare for programare in programari if programare.id_profesor == id_profesor]
 
-    return [_map_programare_examen(programare) for programare in programari]
-
+    return [_map_programare_examen(programare, get_durata_examen_materie_by_id(programare.id_materie))
+            for programare in programari]
 
 
 @router_programari_examen.post("/", status_code=status.HTTP_201_CREATED)
@@ -85,9 +91,9 @@ async def create_programare_examen(programare: ProgramareExamenCreate):
 
     if not new_programare_examen:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                             detail="Error creating the programare examen")
+                            detail="Error creating the programare examen")
 
-    return _map_programare_examen(new_programare_examen)
+    return _map_programare_examen(new_programare_examen, get_durata_examen_materie_by_id(programare.id_materie))
 
 
 @router_programari_examen.put("/{programare_id}")
@@ -99,7 +105,7 @@ async def update_programare_examen(programare_id: uuid.UUID, programare: Program
 
     if not success:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                             detail="Programare examen not found")
+                            detail="Programare examen not found")
 
     return {"message": "Programare examen updated successfully"}
 
@@ -113,4 +119,4 @@ async def delete_programare_examen(programare_id: uuid.UUID):
 
     if not success:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                             detail="Programare examen not found")
+                            detail="Programare examen not found")

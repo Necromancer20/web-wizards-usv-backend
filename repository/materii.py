@@ -15,6 +15,13 @@ def get_materie_by_id(materie_id: uuid.UUID) -> Materii:
         return materie
 
 
+def get_durata_examen_materie_by_id(materie_id: uuid.UUID) -> int:
+    with Session(DATABASE_ENGINE) as session:
+        stmt = select(Materii.durata_examen_minute).where(Materii.id == materie_id)
+        durata = session.scalar(stmt)
+        return durata
+
+
 # Funcție pentru obținerea tuturor materiilor
 def get_all_materii_from_db() -> list[Materii]:
     with Session(DATABASE_ENGINE) as session:

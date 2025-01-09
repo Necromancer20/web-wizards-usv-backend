@@ -16,3 +16,6 @@ Acest proiect reprezintă backend-ul aplicatiei pentru programarea examenelor.
 7. Instalarea dependențelor folosind comanda **pip install -r requirements.txt** 
 8. Introdu comanda **fastapi dev .\main.py** pentru a rula programul.
 9. Dacă nu apare nici o eroare și la final scrie **Application startup complete.** intră pe [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
+## Backend Link - Hosted on Azure
+https://webwizards-backend-231212-f9gnhbf4d5dah2be.germanywestcentral-01.azurewebsites.net/docs

@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
-load_dotenv(".env")
+load_dotenv()
 
 SERVER_HOST = os.environ.get("SERVER_HOST")
 DATABASE_NAME = os.environ.get("DATABASE_NAME")

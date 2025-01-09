@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import UUID
 from pydantic import BaseModel, EmailStr, Field, validator
 
@@ -12,6 +13,8 @@ class UtilizatorLogin(BaseModel):
     last_name: str = Field(..., min_length=2, max_length=100, description="Numele de familie trebuie să aibă între 2 și 100 de caractere.")
     email: EmailStr
     rol: UserRole
+    id_grupa: Optional[UUID]
+    este_sef_semigrupa: bool
 
     @validator("first_name", "last_name")
     def validate_names(cls, value: str):
