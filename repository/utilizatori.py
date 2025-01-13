@@ -59,7 +59,7 @@ def update_user_in_db(user_id: uuid.UUID, new_user: UtilizatorUpdate) -> bool:
         if utilizator is None:
             return False
 
-        utilizator.password = new_user.parola
+        utilizator.password = new_user.password
         utilizator.email = new_user.email
         utilizator.first_name = new_user.first_name
         utilizator.last_name = new_user.last_name

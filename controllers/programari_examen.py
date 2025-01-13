@@ -107,7 +107,9 @@ async def update_programare_examen(programare_id: uuid.UUID, programare: Program
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail="Programare examen not found")
 
-    return {"message": "Programare examen updated successfully"}
+    # Obținem programarea actualizată
+    updated_programare = get_programare_examen_by_id(programare_id)
+    return _map_programare_examen(updated_programare, get_durata_examen_materie_by_id(programare.id_materie))
 
 
 @router_programari_examen.delete("/{programare_id}", status_code=status.HTTP_204_NO_CONTENT)

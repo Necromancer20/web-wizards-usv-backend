@@ -17,7 +17,7 @@ class SpecializareUpdate(BaseModel):
 
     @validator("nume")
     def valideaza_nume(cls, value):
-        if not value.isalpha() or not value.replace(" ", "").isalpha():
+        if not value.replace(" ", "").isalpha():
             raise ValueError("Numele specializării trebuie să conțină doar litere și spații.")
         return value
 
@@ -29,6 +29,6 @@ class SpecializareCreate(BaseModel):
 
     @validator("nume")
     def valideaza_nume(cls, value):
-        if not value.isalpha() or not value.replace(" ", "").isalpha():
+        if not value.replace(" ", "").isalpha():
             raise ValueError("Numele specializării trebuie să conțină doar litere și spații.")
         return value

@@ -3,7 +3,7 @@ from uuid import UUID
 from pydantic import BaseModel, Field, validator
 from repository.programari_examen import check_examen_grupa_distanta_minima
 from datetime import datetime, UTC
-from enum import Enum
+
 from typing import Optional
 
 from database.models import ExamType, ExamStatus
@@ -71,9 +71,15 @@ class ProgramareExamenUpdate(BaseModel):
     status: ExamStatus
 
     @validator("data_examen")
-    def valideaza_data_examen(cls, value):
+    def valideaza_data_examen(value: datetime) -> datetime:
+        # Convertim value la offset-aware datetime folosind UTC
+        if value.tzinfo is None:
+            value = value.replace(tzinfo=UTC)
+
+        # Comparam valorile cu datetime.now(UTC)
         if value <= datetime.now(UTC):
             raise ValueError("Data examenului trebuie să fie în viitor.")
+
         return value
 
     @validator("locatie")

@@ -45,9 +45,7 @@ def update_facultate_in_db(facultate_id: uuid.UUID, facultate_data) -> bool:
         if not facultate:
             return False
 
-        facultate.nume_facultate = facultate_data.nume_facultate
-        facultate.descriere = facultate_data.descriere
-        facultate.locatie = facultate_data.locatie
+        facultate.nume = facultate_data.nume_facultate
 
         session.commit()
         return True

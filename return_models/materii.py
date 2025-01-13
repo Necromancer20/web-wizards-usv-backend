@@ -27,8 +27,8 @@ class MateriiCreate(BaseModel):
 
     @validator("nume")
     def valideaza_nume(cls, value):
-        if not value.isalpha():
-            raise ValueError("Numele trebuie să conțină doar litere.")
+        if not all(part.isalpha() for part in value.split()):
+            raise ValueError("Numele trebuie să conțină doar litere și spații.")
         return value
 
     @validator("nume_abreviat")
@@ -50,8 +50,8 @@ class MateriiUpdate(BaseModel):
 
     @validator("nume")
     def valideaza_nume(cls, value):
-        if not value.isalpha():
-            raise ValueError("Numele trebuie să conțină doar litere.")
+        if not all(part.isalpha() for part in value.split()):
+            raise ValueError("Numele trebuie să conțină doar litere și spații.")
         return value
 
     @validator("nume_abreviat")
